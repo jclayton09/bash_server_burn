@@ -6,6 +6,11 @@ PASSWORD=$3
 USERNAME=$2
 IP=$3
 
+until ping -c1 $IP >/dev/null 2>&1;
+do
+echo "Waiting for server to boot"
+done
+
 TIME=$(sshpass -p ${PASSWORD} ssh ${USERNAME}@${IP} 'date +"%Y-%m-%d %H:%M:%S"')
 
 sshpass -p ${PASSWORD} ssh ${USERNAME}@${IP} "echo $PASSWORD | sudo -S timedatectl set-timezone UTC"
